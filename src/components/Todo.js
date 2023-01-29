@@ -27,20 +27,21 @@ export const Todo = ({
         {todo.task}
       </li>
       <ContainerButtons>
-        <StyledImage
-          onClick={handleEditClick}
-          src="https://img.icons8.com/fluency/512/approve-and-update.png"
-        />
+    
+        <StyledButtonEdit onClick={handleEditClick} >Edit</StyledButtonEdit>  
+    
+      
         <StyledButton onClick={handleRemoveClick}>X</StyledButton>
       </ContainerButtons>
     </StyledDiv>
   );
 };
 
-const StyledImage = styled.img`
-  width: 2rem;
-  height: 2rem;
+const StyledButtonEdit = styled.button`
+  padding:0.3rem 0.5rem;
   margin-right: 1rem;
+  background-color: yellow;
+  font-weight:700;
 `;
 
 const ContainerButtons = styled.button`

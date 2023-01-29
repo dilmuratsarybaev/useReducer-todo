@@ -9,9 +9,9 @@ export const TodoList = ({
   updateTodo,
   setInputText,
   setEdit,
-  setEditingTodoId
+  setEditingTodoId,
 }) => {
-
+  console.log(todos);
   return (
     <StyledUl>
       {todos.map((todo) => {
