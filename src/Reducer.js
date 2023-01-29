@@ -1,4 +1,3 @@
-
 export const Reducer = (prevState, action) => {
   switch (action.type) {
     case "ADD_TODO":
@@ -33,5 +32,7 @@ export const Reducer = (prevState, action) => {
             : todo
         ),
       };
+    default:
+      return prevState;
   }
 };
