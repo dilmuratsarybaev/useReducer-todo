@@ -1,54 +1,47 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import "./App.css";
 import { TodoForm } from "./components/TodoForm";
 import { TodoList } from "./components/TodoList";
+import { Reducer } from "./Reducer";
+
+const initialState = JSON.parse(localStorage.getItem("AUTHO")) || [];
+
 function App() {
-  const [todos, setTodos] = useState([]);
-
+  const [todos, dispathTodos] = useReducer(Reducer, initialState);
+  const [inputText, setInputText] = useState("");
+  const [edit, setEdit] = useState(false);
+  const [editingTodoId, setEditingTodoId] = useState(null);
+  console.log(todos);
   useEffect(() => {
-    const storageTodo = JSON.parse(localStorage.getItem("AUTHO"));
-    // console.log(storageTodo);
-    if (storageTodo) {
-      setTodos(storageTodo);
-    }
-  }, []);
-  // useEffect(() => {
-  //   // console.log(JSON.stringify(todos))
-  // }, [todos]);
-
-  const addTodo = (todo) => {
-    console.log(todo);
-    setTodos([todo, ...todos]);
-    
-  };
+    localStorage.setItem("AUTHO", JSON.stringify(todos));
+  }, [todos]);
 
   const toggleComplete = (id) => {
-    setTodos(
-      todos.map((todo) => {
-        if (todo.id === id) {
-          return {
-            ...todo,
-            completed: !todo.completed,
-          };
-        }
-        return todo;
-      })
-    );
+    dispathTodos({ type: "COMPLETE_TODO", id: id });
   };
 
   const removeTodo = (id) => {
-    const filteredTodo = todos.filter((todo) => todo.id !== id)
-    setTodos(filteredTodo);
-    localStorage.setItem("AUTHO", JSON.stringify(filteredTodo));
+    dispathTodos({ type: "DELETE_TODO", id: id });
   };
   return (
     <div>
       <h1 className="headinOne">React Todo</h1>
-      <TodoForm addTodo={addTodo} />
+      <TodoForm
+        inputText={inputText}
+        setInputText={setInputText}
+        edit={edit}
+        setEdit={setEdit}
+        todos={todos.todos}
+        dispathTodos={dispathTodos}
+        editingTodoId={editingTodoId}
+      />
       <TodoList
-        todos={todos}
+        todos={todos.todos}
         toggleComplete={toggleComplete}
         removeTodo={removeTodo}
+        setInputText={setInputText}
+        setEdit={setEdit}
+        setEditingTodoId={setEditingTodoId}
       />
     </div>
   );

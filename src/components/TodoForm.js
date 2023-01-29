@@ -1,5 +1,68 @@
-import React, { useReducer } from "react";
 import styled from "styled-components";
+
+export const TodoForm = ({
+  setInputText,
+  inputText,
+  edit,
+  setEdit,
+  dispathTodos,
+  editingTodoId,
+}) => {
+  const inputChangeHandler = (event) => {
+    setInputText(event.target.value);
+  };
+  const submitHandle = (event) => {
+    event.preventDefault();
+    dispathTodos({
+      type: "ADD_TODO",
+      payload: {
+        task: inputText,
+        id: Math.random().toString(),
+        complete: false,
+      },
+    });
+    setInputText("");
+  };
+
+  const saveEditedTodo = (e) => {
+    e.preventDefault();
+    dispathTodos({
+      type: "EDIT_TODO",
+      inputText: inputText,
+      editingTodoId: editingTodoId,
+    });
+    setEdit(false);
+    setInputText("");
+  };
+
+  return (
+    <StyledForm>
+      <StyledInput
+        name="task"
+        type="text"
+        value={inputText}
+        onChange={inputChangeHandler}
+      />
+      {edit ? (
+        <StyledButton
+          type="submit"
+          onClick={saveEditedTodo}
+          disabled={!inputText}
+        >
+          Update
+        </StyledButton>
+      ) : (
+        <StyledButton
+          type="submit"
+          onClick={submitHandle}
+          disabled={!inputText}
+        >
+          Submit
+        </StyledButton>
+      )}
+    </StyledForm>
+  );
+};
 
 const StyledForm = styled.form`
   width: 25rem;
@@ -29,47 +92,3 @@ const StyledButton = styled.button`
     background-color: black;
   }
 `;
-export const TodoForm = ({ addTodo }) => {
-  const todoReducer = (state, action) => {
-    // console.log(action)
-    if (action.type === "CHANGE_TODO_VALUE") {
-      return {
-        ...state,
-        task: action.paylaod,
-      };
-    }
-  };
-
-  const [todoState, disPatchTodo] = useReducer(todoReducer, {
-    id: "",
-    task: "",
-    completed: false,
-  });
- 
-  
-  const handleTaskInputChange = (event) => {
-    disPatchTodo({ type: "CHANGE_TODO_VALUE", paylaod: event.target.value });
-  };
-
-  const submitHandle = (event) => {
-    event.preventDefault();
-    if (todoState.task.trim()) {
-      addTodo({ ...todoState, id: Math.random().toString() });
-    }
-    disPatchTodo({type: "CHANGE_TODO_VALUE", paylaod:""});
-  };
-//   console.log(todoState.task)
-  return (
-    <StyledForm>
-      <StyledInput
-        name="task"
-        type="text"
-        value={todoState.task}
-        onChange={handleTaskInputChange}
-      />
-      <StyledButton type="submit" onClick={submitHandle}>
-        Submit
-      </StyledButton>
-    </StyledForm>
-  );
-};
