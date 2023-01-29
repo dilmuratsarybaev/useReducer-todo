@@ -11,7 +11,7 @@ function App() {
   const [inputText, setInputText] = useState("");
   const [edit, setEdit] = useState(false);
   const [editingTodoId, setEditingTodoId] = useState(null);
-  console.log(todos);
+  
   useEffect(() => {
     localStorage.setItem("AUTHO", JSON.stringify(todos));
   }, [todos]);
