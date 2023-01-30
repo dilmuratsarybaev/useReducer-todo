@@ -4,14 +4,14 @@ import { TodoForm } from "./components/TodoForm";
 import { TodoList } from "./components/TodoList";
 import { Reducer } from "./Reducer";
 
-const initialState = JSON.parse(localStorage.getItem("AUTHO")) || [];
+const initialState = JSON.parse(localStorage.getItem("AUTHO")) || { todos: [] };
 
 function App() {
   const [todos, dispathTodos] = useReducer(Reducer, initialState);
   const [inputText, setInputText] = useState("");
   const [edit, setEdit] = useState(false);
   const [editingTodoId, setEditingTodoId] = useState(null);
-  
+
   useEffect(() => {
     localStorage.setItem("AUTHO", JSON.stringify(todos));
   }, [todos]);
@@ -23,6 +23,7 @@ function App() {
   const removeTodo = (id) => {
     dispathTodos({ type: "DELETE_TODO", id: id });
   };
+  console.log(todos.todos);
   return (
     <div>
       <h1 className="headinOne">React Todo</h1>
@@ -31,7 +32,7 @@ function App() {
         setInputText={setInputText}
         edit={edit}
         setEdit={setEdit}
-        todos={todos.todos}
+        // todos={todos}
         dispathTodos={dispathTodos}
         editingTodoId={editingTodoId}
       />

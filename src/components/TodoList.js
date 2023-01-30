@@ -11,7 +11,7 @@ export const TodoList = ({
   setEdit,
   setEditingTodoId,
 }) => {
-  console.log(todos);
+console.log(todos);
   return (
     <StyledUl>
       {todos.map((todo) => {

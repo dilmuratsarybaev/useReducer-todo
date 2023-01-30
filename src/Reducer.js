@@ -1,4 +1,5 @@
 export const Reducer = (prevState, action) => {
+  console.log(prevState.todos);
   switch (action.type) {
     case "ADD_TODO":
       return {
